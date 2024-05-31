@@ -1,0 +1,6 @@
+[Host: hostname.com]
+[User-Agent: tank]
+[Accept: */*]
+[Connection: Close]
+50 /parse_iso
+"[{\"datetime\": \"2024-06-01T12:00:00+03:00\"}]"

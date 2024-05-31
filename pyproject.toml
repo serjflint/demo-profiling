@@ -1,0 +1,27 @@
+[project]
+name = "demo-profiling"
+version = "0.1.0"
+description = "Add your description here"
+dependencies = [
+    "litestar[full]>=2.8.3",
+    "uvicorn>=0.30.0",
+    "notebook>=7.2.0",
+    "python-dateutil>=2.9.0.post0",
+    "memray>=1.12.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/demo_profiling"]
