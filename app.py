@@ -1,16 +1,7 @@
-import datetime as dt
-import json
-
-from litestar import Litestar, get, post
-import uvicorn
-
-try:
-    from dateutil import parser as date_parser
-except ImportError:
-    pass
 
 
-GLOBAL_VAR = []
+from litestar import Litestar
+from litestar import get
 
 
 @get("/")
@@ -23,24 +14,32 @@ async def get_book(book_id: int) -> dict[str, int]:
     return {"book_id": book_id}
 
 
+import json
+from litestar import post
+
 @post("/parse")
 async def parse(data: str) -> dict[str, str]:
     return json.loads(data)[0]
 
+from dateutil import parser as date_parser
 
 @post("/parse_du")
-async def parse_du(data: str) -> str:
-    val = json.loads(data)[0]['datetime']
+async def parse_du(data: str) -> dict[str, str]:
+    val = json.loads(data)[0]["datetime"]
     res = date_parser.parse(val)
-    return str(res)
+    return {"datetime": str(res)}
 
+
+import datetime as dt
 
 @post("/parse_iso")
-async def parse_iso(data: str) -> str:
-    val = json.loads(data)[0]['datetime']
+async def parse_iso(data: str) -> dict[str, str]:
+    val = json.loads(data)[0]["datetime"]
     res = dt.datetime.fromisoformat(val)
-    return str(res)
+    return {"datetime": str(res)}
 
+
+GLOBAL_VAR = []
 
 @get("/leak")
 async def leak() -> str:
@@ -48,6 +47,8 @@ async def leak() -> str:
 
 
 app = Litestar([index, get_book, parse, parse_du, parse_iso, leak])
+
+import uvicorn
 
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0', port=5000)
